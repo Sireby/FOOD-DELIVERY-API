@@ -8,7 +8,7 @@ const {
   description,
   images,
   timestamps,
-} = require("./productModel");
+} = require("../models/productModel");
 
 const productErrorHandler = (err) => {
   console.log(err.message);
@@ -30,4 +30,4 @@ const productErrorHandler = (err) => {
   return error;
 };
 
-modules.exports = productErrorHandler;
+module.exports = productErrorHandler;

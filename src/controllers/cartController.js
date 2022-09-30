@@ -1,5 +1,5 @@
 const Cart = require("../models/cartModel");
-const Order = require("../models/order");
+// const Order = require("../models/order");
 const User = require("../models/userModel");
 const Product = require("../models/productModel");
 
@@ -229,32 +229,8 @@ const getCart = async (req, res) => {
 const deleteCart = async (req, res) => {
   try {
     // check if cart exists
-    let cart = await Cart.findOne({
-      userId: req.params.id,
-    });
-    if (cart) {
-      cart.active = false;
-      cart.cartItems = [];
-      cart.save((err, cart) => {
-        if (err) {
-          res.json({
-            success: false,
-            message: err,
-          });
-        } else {
-          res.json({
-            success: true,
-            message: "Cart deleted",
-            cart: cart,
-          });
-        }
-      });
-    } else {
-      res.json({
-        success: false,
-        message: "Cart does not exist",
-      });
-    }
+    await Cart.findOneAndDelete;
+    ({ userId: req.params });
   } catch (error) {
     console.log(error);
   }

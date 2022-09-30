@@ -4,8 +4,7 @@ const productRouter = require("./routes/productRoute");
 const cartRouter = require("./routes/cartRoute");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const mongoose = require("mongoose");
-require("dotenv").config();
+
 const PORT = 9000;
 var app = express();
 
