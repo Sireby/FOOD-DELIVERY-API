@@ -6,12 +6,9 @@ exports.handleErrors = (err) => {
   console.log(err.message, err.code);
   console.log(err);
   let errors = {
-    name: "",
+    fullname: "",
     email: "",
     password: "",
-    phoneNo: "",
-    username: "",
-    profileImage: "",
   };
 
   if (err.code === 11000) {

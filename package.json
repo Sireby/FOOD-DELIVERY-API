@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/app",
+    "start": "nodemon ./src/app",
     "test": "jest --watchAll"
   },
   "dependencies": {
@@ -15,6 +15,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "mongoose": "^6.6.2",
+    "mongoose-autopopulate": "^0.16.1",
     "morgan": "~1.9.1",
     "validator": "^13.7.0"
   },

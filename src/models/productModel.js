@@ -14,11 +14,13 @@ const productSchema = mongoose.Schema({
     maxlength: 30,
   },
   uniqueProductId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     required: [true, "Please enter Unique productId"],
     minlength: [06, "Minimum length of unique productId is 6 characters"],
     maxlength: 21,
-    match: "((milanProduct:)[/]([a-zA-Z0-9]+))",
+    // match: [
+    //   ([(milanProduct)[/](a-zA-Z0-9)]+), "Enter a valid unique",
+    // ]
   },
   purchaseCount: {
     type: String,

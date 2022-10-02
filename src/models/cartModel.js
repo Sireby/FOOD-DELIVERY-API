@@ -5,23 +5,19 @@ const CartSchema = new mongoose.Schema(
     userId: { type: String, required: [true, "input a valid userId"] },
     products: [
       {
-        productId: {
-          type: String,
+        product: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "product",
+          autopopulate: true,
         },
-        productName: {
-          type: String,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
+
         quantity: {
           type: Number,
           default: 1,
         },
         subtotal: {
           type: Number,
-          default: this.quantity * this.productPrice,
+          default: 0,
         },
       },
     ],
@@ -30,5 +26,6 @@ const CartSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+CartSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = mongoose.model("Cart", CartSchema);

@@ -17,30 +17,23 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: [true, "Please enter password "],
-    match: [
-      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
-      "Minimum password length is 6 characters and maximum is 16 characters and should contain Upper and lowercase and Special characters ",
+    minlength: [6, "Password is less than 6 characters"],
+    select: false,
+  },
+  confirmPassword: {
+    type: String,
+    required: [
+      true,
+      "Wrong! make sure input is of the same characters with password",
     ],
+    minlength: [6, "Password is less than 6 characters"],
+    select: false,
+  },
+  role: {
+    type: String,
+    default: "user",
+    enum: ["user", "vendor", "admin"],
   },
 });
-
-userSchema.pre("save", async function (next) {
-  const salt = await bcrypt.genSalt();
-  this.password = await bcrypt.hash(this.password, salt);
-  next();
-});
-
-//static method login user
-userSchema.statics.login = async function (email, password) {
-  const findUser = await this.findOne({ email });
-  if (findUser) {
-    const auth = await bcrypt.compare(password, findUser.password);
-    if (auth) {
-      return findUser;
-    }
-    throw Error("Incorrect password");
-  }
-  throw Error("Incorrect email");
-};
 
 module.exports = mongoose.model("user", userSchema);
