@@ -1,6 +1,6 @@
 const Cart = require("../models/cartModel");
 // const Order = require("../models/order");
-const User = require("../models/userModel");
+const User = require("../models/user-model");
 const Product = require("../models/productModel");
 
 const checkQuantity = (products) => {
