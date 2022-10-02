@@ -1,11 +1,12 @@
 const express = require("express");
-const User = require("../models/userModel");
+const User = require("../models/user-model");
 const ErrorHandler = require("../helpers/userErrorHandler");
 
 exports.updateUser = async (request, response) => {
   try {
     const { id } = request.params;
     const findUser = await User.findById(id);
+    console.log(findUser);
     findUser.fullname = request.body.fullname;
     findUser.email = request.body.email;
     await findUser.save();

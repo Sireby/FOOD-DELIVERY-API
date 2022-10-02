@@ -1,6 +1,6 @@
 const Product = require("../models/productModel");
 // const Auth = require('./auth')
-// const user = require('./userModel')
+// const user = require('./user-model')
 const productErrorHandler = require("../helpers/productErrorHandler");
 
 // const productCount = require("./productCounter")
