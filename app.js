@@ -1,31 +1,34 @@
-var express = require("express");
-const UserRouter = require("./routes/userRoute");
-const productRouter = require("./routes/productRoute");
-const authRouter = require("./routes/authRoute");
-const cartRouter = require("./routes/cartRoute");
-const orderRouter = require("./routes/orderRoute")
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const express = require("express");
+const app = express();
+const dotenv = require("dotenv");
+const fs = require("fs");
+const morgan = require("morgan");
+const path = require("path");
+dotenv.config({ path: "./config.env" });
+const UserRouter = require("./src/routes/userRoute");
+const productRouter = require("./src/routes/productRoute");
+const cartRouter = require("./src/routes/cartRoute");
+const orderRouter = require("./src/routes/orderRoute");
+const authRoutes = require("./src/routes/auth-route");
+const cookieParser = require("cookie-parser");
 
-const PORT = 4500;
-var app = express();
-
-app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 
-app.use("/auth", authRouter);
-app.use("/", productRouter);
-app.use("/", UserRouter);
-app.use("/", cartRouter);
-app.use("/", orderRouter);
+var accessLogStream = fs.createWriteStream(
+  path.join("./src/utils", "access.log"),
+  {
+    flags: "a",
+  }
+);
 
-app.post("/nothing", () => {
-  console.log("......mother");
-});
+app.use(morgan("dev", { stream: accessLogStream }));
 
-mongoose.connect(process.env.mongoDB);
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+app.use("/api/v1/auths", authRoutes);
+app.use("/api/v1/users", UserRouter);
+app.use("/api/v1/products", productRouter);
+app.use("/api/v1/carts", cartRouter);
+app.use("/api/v1/orders", orderRouter);
+
+module.exports = app;
