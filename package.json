@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./src/app",
+    "start": "nodemon authServer.js",
     "test": "jest --watchAll"
   },
   "dependencies": {
