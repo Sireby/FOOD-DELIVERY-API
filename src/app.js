@@ -3,22 +3,19 @@ const UserRouter = require("./routes/userRoute");
 const productRouter = require("./routes/productRoute");
 const authRouter = require("./routes/authRoute");
 const cartRouter = require("./routes/cartRoute");
-const orderRouter = require("./routes/orderRoute")
+const orderRouter = require("./routes/orderRoute");
 var cookieParser = require("cookie-parser");
-var logger = require("morgan");
 const mongoose = require("mongoose");
 require("dotenv/config");
 
 const PORT = 4500;
 var app = express();
 
-app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use("/auth", authRouter);
-app.use("/", productRouter);
+app.use("/", productRouter); //Update all routes with the specifics
 app.use("/", UserRouter);
 app.use("/", cartRouter);
 app.use("/", orderRouter);

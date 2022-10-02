@@ -23,7 +23,7 @@ exports.signUp = async (req, res) => {
         role,
       });
 
-      const token = createToken(user._id);
+      const token = createToken.auth(user._id);
       return res.status(201).json({
         status: "success",
         token,
