@@ -19,17 +19,17 @@ const createOrder =  async (req, res) => {
               message: "Cart cannot be deleted! "
             })
           }
-              res.status(200).json({
+             return res.status(200).json({
                 message: "Order created Successfully!",
                 return : savedOrder});
          } else{
-          res.status(404).json({
+         return res.status(404).json({
             message: "Invalid User!",
          })
-        }
+       }
       }
            catch (err) {
-              res.status(500).json(err);
+             return res.status(500).json(err);
             }
           };
 
@@ -62,7 +62,7 @@ const createOrder =  async (req, res) => {
           updatedUser: order,
         })
   }catch (err) {
-    res.status(500).json(err);
+   return res.status(500).json(err);
  }
  }
 
@@ -86,12 +86,12 @@ const createOrder =  async (req, res) => {
             })
         }
         await Order.findByIdAndDelete(orderId)
-        res.status(204).json({
+       return  res.status(204).json({
             status: 'Order deleted successfully'
         })
     } 
     catch (err) {
-        res.status(400).json({
+       return res.status(400).json({
             status: 'fail',
             message: err
         })
@@ -111,11 +111,11 @@ const getUserOrder = async (req, res) => {
           })
         }
         const order = await Order.findById(orderId)
-        res.status(200).json({
+        return res.status(200).json({
             data: order
         })
     } catch (err) {
-        res.status(400).json({
+        return res.status(400).json({
             status: 'fail',
             message: err
         })
