@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 
 const OrderSchema = new mongoose.Schema(
   {
-   userId: { type: String, //mongoose.Schema.Types.ObjectId, 
+   userId: { type: String, 
     required: [true, "Input a valid userId"] },
 
 
@@ -11,20 +11,10 @@ const OrderSchema = new mongoose.Schema(
     cart : 
       [{
         type: mongoose.Schema.Types.ObjectId,
-        //required: true,
         ref: "Cart",
         autopopulate: true
       }],
     
-  
-    // price: { type: Number,
-    //   required: true },
-
-
-    // totalAmount: {
-    //           type: Number,
-    //           required: true},
-
     address: { type: String,
                required: true },
 
