@@ -16,7 +16,6 @@ const getSubtotal = (products) => {
   for (let index = 0; index < products.length; index++) {
     const item = products[index];
     subtotal += item.subtotal;
-    console.log(subtotal);
   }
   return subtotal;
 };
@@ -24,9 +23,9 @@ const getSubtotal = (products) => {
 const addToCart = async (req, res) => {
   try {
     const userID = req.params.id;
-    const user = await User.findById(userID); // identify the user
+    const user = req.user; // identify the user
 
-    if (!user) {
+    if (!user && user.id !== userID) {
       return res
         .status(401)
         .json({ success: false, message: "unauthorized user" });
@@ -37,12 +36,10 @@ const addToCart = async (req, res) => {
     }); //check if product to be added to the cart exists in the store
 
     if (!productExist) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "product to be added to cart not found in store",
-        }); //if product doesn't exist return the json response above
+      return res.status(404).json({
+        success: false,
+        message: "product to be added to cart not found in store",
+      }); //if product doesn't exist return the json response above
     }
 
     const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
@@ -53,8 +50,7 @@ const addToCart = async (req, res) => {
         if (item.productID === req.body.productId) {
           return item;
         } // transverse the array to find if product to be added in the array already exist in the cart
-      }); //  console.log(item);
-      console.log(product);
+      });
       // ADD TO CART SECTION
       // CHECK IF PRODUCT ALREADY IN CART
       if (product) {
@@ -115,8 +111,7 @@ const addToCart = async (req, res) => {
     // if user has no cart, create one
     else {
       console.log("user has no cart, create one");
-      console.log(productExist);
-      // console.log(first)
+
       const cart = new Cart({
         _id: user._id,
 
@@ -156,9 +151,9 @@ const addToCart = async (req, res) => {
 const removeFromCart = async (req, res) => {
   try {
     const userID = req.params.id;
-    const user = await User.findById(userID); // identify the user
+    const user = req.user; // identify the user
 
-    if (!user) {
+    if (!user && user.id !== userID) {
       return res
         .status(401)
         .json({ success: false, message: "unauthorized user" });
@@ -169,12 +164,10 @@ const removeFromCart = async (req, res) => {
     }); //check if product to be removed from the cart exists in the store
 
     if (!productExist) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "product to be removed from cart not found in store",
-        }); //if product doesn't exist return the json response above
+      return res.status(404).json({
+        success: false,
+        message: "product to be removed from cart not found in store",
+      }); //if product doesn't exist return the json response above
     }
 
     const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
@@ -185,15 +178,12 @@ const removeFromCart = async (req, res) => {
       // check if product already exists in cart
       let product = cart.products.find((item) => {
         if (item.productID === req.body.productId) {
-          // console.log(item)
           return item;
         }
       });
       // REMOVE TO CART SECTION
       // CHECK IF PRODUCT ALREADY IN CART
       if (product != undefined) {
-        // console.log(product, "product already exists in cart");
-
         let quantity = parseInt(req.body.quantity); // convert product quantity to a number
         if (cart.products.length === 1 && product.quantity === 1) {
           await Cart.findOneAndDelete({ _id: user._id });
@@ -201,15 +191,12 @@ const removeFromCart = async (req, res) => {
         if (product.quantity == 1) {
           cart.products.splice(cart.products.indexOf(product), 1);
           product.subtotal = product.quantity * productExist.price;
-          console.log(typeof product.subtotal);
           cart.itemCount = checkQuantity(cart.products);
           cart.totalPrice = getSubtotal(cart.products);
         } else {
           product.quantity -= quantity || 1;
-          console.log(product.quantity);
           // it's subtracts specified quantity of product or subtracts 1 if quantity not specified
           product.subtotal = product.quantity * productExist.price;
-          console.log(typeof product.subtotal);
           cart.itemCount = checkQuantity(cart.products);
           cart.totalPrice = getSubtotal(cart.products);
         }
@@ -228,12 +215,10 @@ const removeFromCart = async (req, res) => {
           }
         });
       } else {
-        res
-          .status(409)
-          .json({
-            success: false,
-            message: "cannot delete, this product is not in your cart ",
-          });
+        res.status(409).json({
+          success: false,
+          message: "cannot delete, this product is not in your cart ",
+        });
       }
     }
 
@@ -251,9 +236,15 @@ const removeFromCart = async (req, res) => {
 
 const getCart = async (req, res) => {
   try {
+    const user = req.user;
+    if (!user && user.id !== userID) {
+      return res
+        .status(401)
+        .json({ success: false, message: "unauthorized user" });
+    }
     // check if cart exists
     let cart = await Cart.findOne({
-      _id: req.params.id,
+      _id: user.id,
     });
     if (cart) {
       res.json({
@@ -269,13 +260,22 @@ const getCart = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res
+      .status(500)
+      .json({ message: "server Error: " + error.message, success: false });
   }
 };
 
 const deleteCart = async (req, res) => {
   try {
     // check if cart exists
-    const deletedCart = await Cart.findOneAndDelete({ _id: req.params.id });
+    const user = req.user;
+    if (!user && user.id !== userID) {
+      return res
+        .status(401)
+        .json({ success: false, message: "unauthorized user" });
+    }
+    const deletedCart = await Cart.findOneAndDelete({ _id: user.id });
     if (!deletedCart) {
       res.status(404).json({
         success: false,
