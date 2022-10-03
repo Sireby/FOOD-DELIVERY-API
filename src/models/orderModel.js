@@ -1,33 +1,21 @@
 const mongoose = require("mongoose");
 
+
 const OrderSchema = new mongoose.Schema(
   {
-   userId: { type: String, required: [true, "Input a valid userId"] },
-
-    products: [
-      {
-        productId: {
-          productId: {
-            userId: { type: String, required: true },
-        },
-
-        quantity: {
-          type: Number,
-          default: 1,
-        },
-      },
-    },
-    ],
-
-    price: { type: Number,
-      required: true },
+   userId: { type: String, 
+    required: [true, "Input a valid userId"] },
 
 
-    totalAmount: {
-              type: Number,
-              required: true},
 
-    address: { type: Object,
+    cart : 
+      [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Cart",
+        autopopulate: true
+      }],
+    
+    address: { type: String,
                required: true },
 
     status: { type: String, 
@@ -35,5 +23,7 @@ const OrderSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+OrderSchema.plugin(require("mongoose-autopopulate"));
 
 module.exports = mongoose.model("Order", OrderSchema);

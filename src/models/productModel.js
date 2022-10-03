@@ -13,44 +13,66 @@ const productSchema = mongoose.Schema({
     minlength: [04, "Minimum length of category is 4 characters"],
     maxlength: 30,
   },
-  uniqueProductId: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: [true, "Please enter Unique productId"],
-    minlength: [06, "Minimum length of unique productId is 6 characters"],
-    maxlength: 21,
-    // match: [
-    //   ([(milanProduct)[/](a-zA-Z0-9)]+), "Enter a valid unique",
-    // ]
+  vendor: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: [true, "Please create an account"],
   },
-  purchaseCount: {
-    type: String,
-    required: [true, "Please enter purchase count"],
+  // purchaseCount: {
+  //   type: String,
+  //   required: [true, "Please enter purchase count"],
+  // },
+  productId: {
+    type: mongoose.Schema.ObjectId,
+    ref: "Product"
   },
-  productCount: {
+  productCounter: {
     type: Number,
+    default: 1,
   },
   price: {
-    type: String,
+    type: Number,
     required: [true, "Enter a price"],
   },
   description: {
     type: String,
     required: [true, "Enter a description"],
-    minlength: [50, "Minimum length of description is 50 characters"],
+    minlength: [13, "Minimum length of description is 50 characters"],
     maxlength: 300,
   },
-
   images: {
     type: String,
     required: [true, "Enter image URL"],
   },
-  timestamps: {
-    type: String,
-    required: [true, "Enter entry time and Date"],
-  },
-});
+}, { timestamps: true }
+);
 
-module.exports = mongoose.model("product", productSchema);
+
+// Product.aggregate([
+//   {
+//     $match: { productName: "string"},
+//     $group: {
+//       _id: "$productName",
+//       count: { $sum: 1}
+//     }
+//   }
+// ])
+
+//productCounter.length;
+
+const Product = mongoose.model("product", productSchema);
+
+module.exports = Product
+
+
+// const filter = { vendor:}
+// let productCounter = await products.aggregate().
+// match({ "title": "string"} },
+//     { $group: { "_id": "vendor", "No_of_Times": { $sum: 1 } } }
+//   ]
+// );
+
+
 
 // const ObjectID = mongoose.Schema.Types.ObjectId
 // const itemSchema = new mongoose.Schema({
@@ -66,3 +88,4 @@ module.exports = mongoose.model("product", productSchema);
 
 //   available product number: {
 //     counter
+

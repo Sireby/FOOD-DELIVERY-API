@@ -7,6 +7,7 @@ app.use(express.json());
 const router = express.Router();
 
 const { updateUser, getUser, getAllUsers, deleteUser } = UserController;
+
 router.route("/user").get(auth, getAllUsers).delete(auth, deleteUser);
 
 router.route("/user/:id").get(auth, getUser).put(updateUser);
