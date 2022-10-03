@@ -3,7 +3,6 @@ const { deleteProduct } = require("../controllers/productController");
 const {
   productName,
   category,
-  uniqueProductId,
   price,
   description,
   images,
