@@ -8,9 +8,9 @@ app.use(express.json());
 
 mongoose.connect(process.env.DB_URL);
 mongoose.connection.once("open", () => {
-  console.log("conneted to database");
+  console.log("Connected To Database!");
 });
 
 app.listen(process.env.DB_PORT, () => {
-  console.log("Hello from port " + process.env.DB_PORT);
+  console.log("APP IS LISTENING ON PORT " + process.env.DB_PORT);
 });
