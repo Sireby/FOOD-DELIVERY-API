@@ -30,6 +30,35 @@
 [0mGET /api/v1/users/user/6339e140512e5a737e689cf4 [32m200 [0m1365.382 ms - 159[0m
 [0mGET /api/v1/users/user/6339e140512e5a737e689cf [33m401 [0m4.735 ms - 39[0m
 [0mGET /api/v1/users/user/6339e140512e5a737e689cf4 [32m200 [0m185.559 ms - 159[0m
+
+[0mGET /api/v1/users/user/6339e140512e5a737e689cf4 [33m403 [0m5.870 ms - 27[0m
+[0mGET /api/v1/users/user/6339e140512e5a737e689cf4 [33m403 [0m1.995 ms - 27[0m
+[0mGET /api/v1/users/user/6339e140512e5a737e689cf4 [33m403 [0m0.437 ms - 27[0m
+[0mGET /api/v1/auths/signup [33m404 [0m3.880 ms - 158[0m
+[0mPOST /api/v1/auths/signup [32m201 [0m13902.705 ms - 487[0m
+[0mPOST /api/v1/users/user/6339ef660e676e00b1772150 [33m404 [0m2.854 ms - 182[0m
+[0mGET /api/v1/users/user/6339ef660e676e00b1772150 [33m403 [0m1.263 ms - 27[0m
+[0mGET /api/v1/users/user/6339ef660e676e00b1772150 [33m403 [0m6.623 ms - 27[0m
+[0mPOST /api/v1/auths/signup [32m201 [0m976.054 ms - 487[0m
+[0mPOST /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m3.984 ms - 182[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m1.877 ms - 181[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m5.934 ms - 181[0m
+[0mPUT /api/v1/auths/signin/ [33m404 [0m1.791 ms - 159[0m
+[0mPOST /api/v1/auths/signin/ [32m200 [0m344.086 ms - 406[0m
+[0mPUT /api/v1/users/user/ [33m404 [0m174.997 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m0.853 ms - 181[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m2160.195 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m229.421 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [32m200 [0m461.764 ms - 193[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m291.275 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m3742.206 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m268.549 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m233.652 ms - 50[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m2313.592 ms - 76[0m
+[0mPUT /api/v1/users/user/6339fd336d4f5f99f1fe6fdc [33m404 [0m195.587 ms - 76[0m
+[0mPUT /api/v1/users/user/?id=6339fd336d4f5f99f1fe6fdc [33m404 [0m7.930 ms - 157[0m
+[0mDELETE /api/v1/users/user/?id=6339fd336d4f5f99f1fe6fdc [32m200 [0m363.944 ms - 336[0m
+
 [0mPOST /signup [33m404 [0m2.959 ms - 146[0m
 [0mPOST /api/v1/products [33m404 [0m1.127 ms - 155[0m
 [0mPOST /api/v1/products/createProduct [33m404 [0m0.819 ms - 169[0m
@@ -169,3 +198,4 @@
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [33m404 [0m1.613 ms - 187[0m
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [33m404 [0m0.687 ms - 187[0m
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [32m200 [0m545.734 ms - 407[0m
+

@@ -1,10 +1,9 @@
 const express = require("express");
-// const User = require("../models/userModel");
+// const User = require("../models/user-model")
 
 //Handling errors
 exports.handleErrors = (err) => {
   console.log(err.message, err.code);
-  console.log(err);
   let errors = {
     fullname: "",
     email: "",
@@ -16,18 +15,8 @@ exports.handleErrors = (err) => {
     return errors;
   }
 
-  // Incorrect email
-  if (err.message === "Incorrect email") {
-    errors.email = "The email is not registered";
-  }
-
-  // Incorrect password
-  if (err.message === "Incorrect password") {
-    errors.password = "The password is not registered";
-  }
-
   //validate errors
-  if (err.message.includes("user validation failed"))
+  if (err.message.includes("User validation failed"))
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
     });
