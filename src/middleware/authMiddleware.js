@@ -34,7 +34,7 @@ exports.auth = async (req, res, next) => {
       next();
 };
 
-//Check if user s logged in
+//Check if user is logged in
 exports.checkUser = (...roles) => {
     return async (req, res, next) => {
     if (!req.user.role.includes(...roles)) {
