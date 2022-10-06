@@ -67,12 +67,12 @@ const addToCart = async (req, res) => {
         cart.totalPrice = parseInt(getSubtotal(cart.products));
         cart.save(cart, (err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
-              message: err,
+              message: err.message,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
               message: "Cart updated",
               cart: cart,
@@ -93,12 +93,12 @@ const addToCart = async (req, res) => {
         cart.quantity = getSubtotal(cart.products);
         cart.save((err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
-              message: err,
+              message: err.message,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
               message: "Cart updated",
               cart: cart,
@@ -129,12 +129,12 @@ const addToCart = async (req, res) => {
       });
       cart.save((err, cart) => {
         if (err) {
-          return res.json({
+          return res.status(500).json({
             success: false,
-            message: err,
+            message: err.message,
           });
         } else {
-          return res.json({
+          return res.status(200).json({
             success: true,
             message: "Cart created",
             cart: cart,
@@ -187,6 +187,11 @@ const removeFromCart = async (req, res) => {
         let quantity = parseInt(req.body.quantity); // convert product quantity to a number
         if (cart.products.length === 1 && product.quantity === 1) {
           await Cart.findOneAndDelete({ _id: user._id });
+          return res.status(200).json({
+            success: true,
+            message: "product deleted from cart successfully",
+            cart: cart,
+          });
         }
         if (product.quantity == 1) {
           cart.products.splice(cart.products.indexOf(product), 1);
@@ -202,12 +207,12 @@ const removeFromCart = async (req, res) => {
         }
         cart.save(cart, (err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
               message: err,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
               message: "product deleted from cart successfully",
               cart: cart,
@@ -236,6 +241,7 @@ const removeFromCart = async (req, res) => {
 
 const getCart = async (req, res) => {
   try {
+     const userID = req.params.id;
     const user = req.user;
     if (!user && user.id !== userID) {
       return res
@@ -269,7 +275,8 @@ const getCart = async (req, res) => {
 const deleteCart = async (req, res) => {
   try {
     // check if cart exists
-    const user = req.user;
+     const userID = req.params.id;
+     const user = req.user;
     if (!user && user.id !== userID) {
       return res
         .status(401)
@@ -292,4 +299,11 @@ const deleteCart = async (req, res) => {
   }
 };
 
-module.exports = { getCart, removeFromCart, addToCart, deleteCart };
+module.exports = {
+  getCart,
+  removeFromCart,
+  addToCart,
+  deleteCart,
+  getSubtotal,
+  checkQuantity,
+};
