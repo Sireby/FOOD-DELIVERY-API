@@ -10,6 +10,7 @@ const {
   resetPasswordRequestController,
   resetPasswordController,
   logout,
+  deleteUser,
 } = authController;
 
 router.post("/signup", signUp);
@@ -17,6 +18,7 @@ router.post("/signup", signUp);
 router.post("/signin", signIn);
 
 router.post("/logout/:id", auth, logout);
+router.delete("/delete", auth, deleteUser);
 
 router
   .route("/resetpassword")

@@ -52,7 +52,6 @@ exports.updateProduct = async (request, response) => {
     if (findProduct) {
       findProduct.price = request.body.price;
       findProduct.description = request.body.description;
-      //findProduct.topSeller = request.body.topSeller;
       findProduct.images = request.body.images;
       await findProduct.save();
       return response.status(200).send({
