@@ -2,20 +2,6 @@ const Product = require("../models/productModel");
 const User = require('../models/user-model')
 const productErrorHandler = require("../helpers/productErrorHandler");
 
-//const productCount = require("./productCounter")
-
-
-// let productCounter = Product.aggregate([
-//   {
-//     $group: {
-//       _id: "$productName",
-//       count: { $sum: 1}
-//     }
-//   }
-// ])
-
-// productCounter.length;
-
 
 
 exports.createProduct = async (request, response) => {  
@@ -52,7 +38,6 @@ exports.updateProduct = async (request, response) => {
     if (findProduct) {
       findProduct.price = request.body.price;
       findProduct.description = request.body.description;
-      //findProduct.topSeller = request.body.topSeller;
       findProduct.images = request.body.images;
       await findProduct.save();
       return response.status(200).send({
@@ -153,4 +138,3 @@ exports.deleteProduct = async (request, response) => {
     return response.status(400).json({ err });
   }
 };
-

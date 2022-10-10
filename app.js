@@ -11,6 +11,7 @@ const cartRouter = require("./src/routes/cartRoute");
 const orderRouter = require("./src/routes/orderRoute");
 const authRoutes = require("./src/routes/auth-route");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 
 app.use(express.json());
 
@@ -30,5 +31,14 @@ app.use("/api/v1/users", UserRouter);
 app.use("/api/v1/products", productRouter);
 app.use("/api/v1/carts", cartRouter);
 app.use("/api/v1/orders", orderRouter);
+
+const db = async () => {
+  await mongoose.connect(process.env.DB_URL);
+};
+db()
+mongoose.connection.once("open", () => {
+  console.log("Connected To Database!");
+  
+});
 
 module.exports = app;

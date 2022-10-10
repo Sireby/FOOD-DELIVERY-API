@@ -1,5 +1,4 @@
 const Cart = require("../models/cartModel");
-// const Order = require("../models/order");
 const User = require("../models/user-model");
 const Product = require("../models/productModel");
 
@@ -241,7 +240,7 @@ const removeFromCart = async (req, res) => {
 
 const getCart = async (req, res) => {
   try {
-     const userID = req.params.id;
+    const userID = req.params.id;
     const user = req.user;
     if (!user && user.id !== userID) {
       return res
@@ -253,20 +252,20 @@ const getCart = async (req, res) => {
       _id: user.id,
     });
     if (cart) {
-      res.json({
+      return res.json({
         success: true,
         message: "Cart retrieved",
         cart: cart,
       });
     } else {
-      res.json({
+      return res.json({
         success: false,
         message: "Cart does not exist",
       });
     }
   } catch (error) {
     console.log(error);
-    res
+    return res
       .status(500)
       .json({ message: "server Error: " + error.message, success: false });
   }
@@ -275,8 +274,8 @@ const getCart = async (req, res) => {
 const deleteCart = async (req, res) => {
   try {
     // check if cart exists
-     const userID = req.params.id;
-     const user = req.user;
+    const userID = req.params.id;
+    const user = req.user;
     if (!user && user.id !== userID) {
       return res
         .status(401)
@@ -284,7 +283,7 @@ const deleteCart = async (req, res) => {
     }
     const deletedCart = await Cart.findOneAndDelete({ _id: user.id });
     if (!deletedCart) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: " cart not found",
       });

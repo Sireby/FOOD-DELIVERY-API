@@ -172,3 +172,19 @@ exports.resetPasswordController = async (req, res, next) => {
     res.status(400).json({ message: error });
   }
 };
+exports.deleteUser = async(req, res)=>{
+  try{
+    const deletedUser =  await User.findOneAndDelete({_id: req.user.id });
+    if(!deletedUser){
+      await Token.findOneAndDelete({ userId : req.user.id});
+      return res.status(400).json({message: "unable to delete account"})
+    }
+    return res.status(200).json({
+      success: true,
+      message:"account deleted"
+    })
+  }
+  catch(error) {
+    res.status(500).json({ message: error });
+  }
+}

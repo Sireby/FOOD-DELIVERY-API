@@ -18,7 +18,7 @@ const createOrder =  async (req, res) => {
             cart:  [orderCart],
             address: req.body.address
           });
-          const savedOrder = await newOrder.save();
+          
           const reqBody = req.body.cartId
           const deletedCart = await Cart.findOneAndDelete(reqBody);
           if(!deletedCart)
@@ -27,6 +27,7 @@ const createOrder =  async (req, res) => {
               message: "Cart cannot be deleted!"
             })
           }
+          const savedOrder = await newOrder.save();
              return res.status(200).json({
                 message: "Order created Successfully!",
                 return : savedOrder});
@@ -86,14 +87,16 @@ const createOrder =  async (req, res) => {
             message: "Invalid User ID! "
           })
         }
-      const order = await Order.findById(orderId); 
+      const order = await Order.findOne({ userId: orderId }); 
         if (!order) {
+          console.log(order)
             return res.status(400).json({
                 status: 'fail',
                 message: `Order with Id: ${orderId} does not exist!`
             })
         }else{
-       await Order.findByIdAndDelete(orderId)
+          console.log(order);
+       await Order.findOneAndDelete({userId: orderId})
        return  res.status(200).json({
             message: 'Order deleted successfully'
         })}
