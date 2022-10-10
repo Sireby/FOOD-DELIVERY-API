@@ -47,7 +47,7 @@ exports.signUp = async (req, res) => {
       .status(400)
       .json({ message: "Password is less than 6 characters" });
   } catch (error) {
-    const errors = handleError.handleError(error);
+    const errors = handleError(error);
     res.status(404).json({ errors });
   }
 };
@@ -95,6 +95,8 @@ exports.signIn = async (req, res) => {
 //Logout
 exports.logout = async (req, res) => {
   try {
+    const token = "";
+    res.cookie("jwt", token, { httpOnly: true});
     res.status(200).json({ message: "You've successfully logged out" });
   } catch (error) {
     res.status(404).json({ message: "Account not logged out" });
