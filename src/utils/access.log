@@ -199,6 +199,7 @@
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [33m404 [0m0.687 ms - 187[0m
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [32m200 [0m545.734 ms - 407[0m
 
+
 [0mPATCH /api/v1/carts/cart/add/633a09e493769ec0530023f8 [33m403 [0m5.989 ms - 27[0m
 [0mGET /:59933localhost/api/v1/carts/cart/633a09e493769ec0530023f8 [33m404 [0m11.463 ms - 197[0m
 [0mPATCH /api/v1/carts/cart/remove/633a09e493769ec0530023f8 [33m403 [0m1.721 ms - 27[0m
@@ -920,7 +921,7 @@
 [0mGET /api/v1/orders/allOrders [32m200 [0m440.783 ms - 1707[0m
 [0mGET /api/v1/orders/allOrders [32m200 [0m2256.929 ms - 1707[0m
 [0mDELETE /api/v1/orders/order/633e18bb7a036e94a4d46fa2 [32m200 [0m3128.713 ms - 40[0m
-<<<<<<< HEAD
+
 [0mPOST /api/v1/auths/signin [33m400 [0m10096.455 ms - 89[0m
 [0mPOST /api/v1/auths/signin [33m400 [0m10064.507 ms - 89[0m
 [0mPOST /api/v1/auths/signin [33m400 [0m10084.823 ms - 89[0m
@@ -1290,5 +1291,20 @@
 [0mGET /api/v1/users/user/63436d12a84c04211b30cc03 [32m200 [0m274.735 ms - 158[0m
 [0mGET /api/v1/users/user [32m200 [0m289.019 ms - 1187[0m
 [0mDELETE /api/v1/auths/delete [32m200 [0m297.785 ms - 44[0m
-=======
->>>>>>> cc33086741d862e8e7aebe503c8eebeef801fadf
+
+
+[0mPOST /api/v1/users/user/?id=6339fd336d4f5f99f1fe6fdc [33m404 [0m4.768 ms - 158[0m
+[0mPOST /api/v1/users/user/ [33m404 [0m2.663 ms - 158[0m
+[0mPOST /api/v1/auths/signup [33m404 [0m177.174 ms - 98[0m
+[0mPOST /api/v1/auths/signup [32m201 [0m512.584 ms - 482[0m
+[0mPOST /api/v1/auths/signin [32m200 [0m406.908 ms - 401[0m
+[0mPOST /api/v1/auths/signin [33m401 [0m271.529 ms - 55[0m
+[0mPOST /api/v1/auths/forgotpassword [33m404 [0m3.278 ms - 167[0m
+[0mPUT /api/v1/auths/forgotpassword [33m404 [0m2.119 ms - 166[0m
+[0mPUT /api/v1/auths/resetpassword [32m200 [0m610.249 ms - 192[0m
+[0mPUT /api/v1/auths/resetpassword [32m200 [0m148.144 ms - 33[0m
+[0mPOST /api/v1/auths/resetpassword [33m400 [0m520.562 ms - 14[0m
+[0mPOST /api/v1/auths/resetpassword [33m400 [0m141.016 ms - 14[0m
+[0mPOST /api/v1/auths/signin [33m401 [0m325.298 ms - 55[0m
+[0mPOST /api/v1/auths/signin [32m200 [0m297.095 ms - 401[0m
+
