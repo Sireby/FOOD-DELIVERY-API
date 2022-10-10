@@ -1,0 +1,29 @@
+{
+  "name": "e-commerce",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./src/authServer.js",
+    "test": "jest --watchAll"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "dotenv": "^16.0.3",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^6.6.2",
+    "mongoose-autopopulate": "^0.16.1",
+    "morgan": "~1.9.1",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.0.3",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.2.4"
+  }
+}
