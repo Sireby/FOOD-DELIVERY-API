@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./src/authServer.js",
-    "test": "jest --watchAll"
+    "test": "jest ./src/tests/cart.test.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",

@@ -3,31 +3,34 @@ const app = require("../app");
 
 describe("User route", () => {
   test("Create user", async () => {
-    const response = await request(app).post("/user").send({
+    const response = await request(app).post("/api/v1/auths/signup").send({
       fullname: "Tribe Milan",
-      email: "tribemilan@google.com",
-      password: "milan104$",
+      email: "milan@gmail.com",
+      password: "qwerty123$",
+      confirmPassword: "qwerty123$",
+      role: "user",
     });
     expect(response.status).toBe(201);
     expect(response.body).toEqual(
       expect.objectContaining({
-        fullname: "Tribe Milan",
-        email: "tribemilan@google.com",
-        password: "milan104$",
-        completed: true,
+        status: "success",
+        token: expect.any(String),
+       data: expect.any(Object),
+       
       })
     );
   });
   test("User Login", async () => {
-    const response = await request(app).post("/user/:id").send({
-      email: "tribemilan@google.com",
-      password: "milan104$",
+    const response = await request(app).post("/api/v1/auths/signin").send({
+      email: "milan@gmail.com",
+      password: "qwerty123$",
     });
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.objectContaining({
-        success: true,
-        message: expect.any(String),
+        status: "success",
+        token: expect.any(String),
+        data: expect.any(Object),
       })
     );
   });

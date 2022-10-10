@@ -5,6 +5,7 @@ describe("Product route", () => {
   test("Create product", async () => {
     const response = await request(app).post("/product").send({
       productName: "agbado",
+      category: "",
       description: "This product is for manufactured by Tinubu",
       price: "$200",
       quantity: "500",
