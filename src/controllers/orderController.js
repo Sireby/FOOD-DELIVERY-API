@@ -16,7 +16,8 @@ const createOrder =  async (req, res) => {
           const newOrder = new Order({
             userId: userId , 
             cart:  [orderCart],
-            address: req.body.address
+            address: req.body.address,
+            phoneNumber: req.body.phoneNumber
           });
           const savedOrder = await newOrder.save();
           const reqBody = req.body.cartId

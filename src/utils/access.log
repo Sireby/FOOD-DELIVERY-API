@@ -169,3 +169,16 @@
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [33m404 [0m1.613 ms - 187[0m
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [33m404 [0m0.687 ms - 187[0m
 [0mPUT /api/v1/products/product/633ad35d2b0c3d21fb672854 [32m200 [0m545.734 ms - 407[0m
+[0mGET /api/v1/orders/allOrders [33m403 [0m8.287 ms - 27[0m
+[0mGET /api/v1/orders/allOrders [32m200 [0m795.024 ms - 3452[0m
+[0mPOST /api/v1/orders/create/633a09e493769ec0530023f8 [31m500 [0m1953.907 ms - 377[0m
+[0mPOST /api/v1/orders/create/633a09e493769ec0530023f8 [31m500 [0m969.760 ms - 377[0m
+[0mGET /api/v1/orders/order/6338d4ae7b98bdaaa2911ebe [33m403 [0m3.967 ms - 27[0m
+[0mGET /api/v1/orders/order/6338d4ae7b98bdaaa2911ebe [32m200 [0m1323.600 ms - 238[0m
+[0mGET /api/v1/orders/allOrders [32m200 [0m1556.798 ms - 1454[0m
+[0mGET /api/v1/orders/allOrders [32m200 [0m1279.960 ms - 1454[0m
+[0mDELETE /api/v1/orders/order/6338d4ae7b98bdaaa2911ebe [33m400 [0m30016.757 ms - 617[0m
+[0mDELETE /api/v1/orders/order/6338d4ae7b98bdaaa2911ebe [33m400 [0m483.266 ms - 85[0m
+[0mPOST /api/v1/orders/create/633a09e493769ec0530023f8 [31m500 [0m41259.737 ms - 589[0m
+[0mPOST /api/v1/orders/create/633a09e493769ec0530023f8 [31m500 [0m1958.563 ms - 377[0m
+[0mPOST /api/v1/orders/create/633a09e493769ec0530023f8 [32m200 [0m1512.638 ms - 899[0m
