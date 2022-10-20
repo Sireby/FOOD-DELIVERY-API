@@ -1,82 +1,75 @@
 const Cart = require("../models/cartModel");
-// const Order = require("../models/order");
 const User = require("../models/user-model");
-const Product = require("../models/productModel");
+const Menu = require("../models/menuModel");
 
-const checkQuantity = (products) => {
+const checkQuantity = (menuItem) => {
   let quantity = 0;
-  for (let index = 0; index < products.length; index++) {
-    const product = products[index];
+  for (let index = 0; index < menuItem.length; index++) {
+    const product = menuItem[index];
     quantity += product.quantity;
   }
   return quantity;
 };
-const getSubtotal = (products) => {
+const getSubtotal = (menuItem) => {
   let subtotal = 0;
-  for (let index = 0; index < products.length; index++) {
-    const item = products[index];
+  for (let index = 0; index < menuItem.length; index++) {
+    const item = menuItem[index];
     subtotal += item.subtotal;
-    console.log(subtotal);
   }
   return subtotal;
 };
 
 const addToCart = async (req, res) => {
   try {
-    const userID = req.params.id;
-    const user = await User.findById(userID); // identify the user
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res
         .status(401)
-        .json({ success: false, message: "unauthorized user" });
+        .json({ success: false, message: "Unauthorized USer!" });
     }
 
-    const productExist = await Product.findOne({
-      _id: req.body.productId,
-    }); //check if product to be added to the cart exists in the store
+    const menuItemExist = await Menu.findOne({
+      _id: req.body.foodId,
+    }); 
 
-    if (!productExist) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "product to be added to cart not found in store",
-        }); //if product doesn't exist return the json response above
+    if (!menuItemExist) {
+      return res.status(404).json({
+        success: false,
+        message: "Item is not on the menu! ",
+      }); 
     }
 
-    const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
+    const cart = await Cart.findOne({ _id: user._id }); 
 
     if (cart) {
-      // check if product already exists in cart
-      let product = cart.products.find((item) => {
-        if (item.productID === req.body.productId) {
+      let foodItem = cart.menuItem.find((item) => {
+        if (item.foodID === req.body.foodId) {
           return item;
         } // transverse the array to find if product to be added in the array already exist in the cart
-      }); //  console.log(item);
-      console.log(product);
-      // ADD TO CART SECTION
+      });
+
       // CHECK IF PRODUCT ALREADY IN CART
-      if (product) {
-        console.log("product already exists in cart");
+      if (foodItem) {
+        console.log("Item already exists in cart! ");
 
         let quantity = parseInt(req.body.quantity);
         // convert product quantity to a number
 
-        product.quantity += quantity || 1;
+        foodItem.quantity += quantity || 1;
         // it's add specified quantity of product or adds 1 if quantity not specified
-        product.subtotal = product.quantity * productExist.price;
+        foodItem.subtotal = foodItem.quantity * menuItemExist.price;
 
-        cart.itemCount = checkQuantity(cart.products);
-        cart.totalPrice = parseInt(getSubtotal(cart.products));
+        cart.itemCount = checkQuantity(cart.menuItem);
+        cart.totalPrice = parseInt(getSubtotal(cart.menuItem));
         cart.save(cart, (err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
-              message: err,
+              message: err.message,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
               message: "Cart updated",
               cart: cart,
@@ -85,24 +78,23 @@ const addToCart = async (req, res) => {
         });
       } else {
         // user has cart but doesnt have product in his cart
-        console.log(" user has cart but doesnt have product in his cart");
+        console.log(" No Items In Cart!");
 
-        cart.products.push({
-          productID: req.body.productId,
-          product: req.body.productId,
+        cart.menuItem.push({
+          food: req.body.foodId,
           quantity: req.body.quantity || 1,
-          subtotal: productExist.price * (req.body.quantity || 1),
+          subtotal: menuItemExist.price * (req.body.quantity || 1),
         });
-        cart.itemCount = checkQuantity(cart.products);
-        cart.quantity = getSubtotal(cart.products);
+        cart.itemCount = checkQuantity(cart.menuItem);
+        cart.quantity = getSubtotal(cart.menuItem);
         cart.save((err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
-              message: err,
+              message: err.message,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
               message: "Cart updated",
               cart: cart,
@@ -114,34 +106,33 @@ const addToCart = async (req, res) => {
 
     // if user has no cart, create one
     else {
-      console.log("user has no cart, create one");
-      console.log(productExist);
-      // console.log(first)
+      console.log("Cart is empty, Add items!");
+
       const cart = new Cart({
         _id: user._id,
 
-        products: [
+        menuItem: [
           {
-            productID: req.body.productId,
-            product: req.body.productId,
+            //foodID: req.body.foodId,
+            food: req.body.foodId,
             quantity: req.body.quantity || 1,
-            price: productExist.price,
-            subtotal: productExist.price * (req.body.quantity || 1),
+            price: menuItemExist.price,
+            subtotal: menuItemExist.price * (req.body.quantity || 1),
           },
         ],
         itemCount: req.body.quantity || 1,
-        totalPrice: productExist.price * (req.body.quantity || 1),
+        totalPrice: menuItemExist.price * (req.body.quantity || 1),
       });
       cart.save((err, cart) => {
         if (err) {
-          return res.json({
+          return res.status(500).json({
             success: false,
-            message: err,
+            message: err.message,
           });
         } else {
-          return res.json({
+          return res.status(200).json({
             success: true,
-            message: "Cart created",
+            message: "Cart created!",
             cart: cart,
           });
         }
@@ -153,87 +144,89 @@ const addToCart = async (req, res) => {
   }
 };
 
+
+
+//REMOVE ITEM FROM CART
 const removeFromCart = async (req, res) => {
   try {
-    const userID = req.params.id;
-    const user = await User.findById(userID); // identify the user
+    // const userID = req.params.id;
+    // const user = req.user; // identify the user
+    const user = await User.findById(req.params.id);
 
     if (!user) {
       return res
         .status(401)
-        .json({ success: false, message: "unauthorized user" });
+        .json({ success: false, message: "Unauthorized User!" });
     }
 
-    const productExist = await Product.findOne({
-      _id: req.body.productId,
-    }); //check if product to be removed from the cart exists in the store
+    const menuItemExist = await Menu.findOne({
+      _id: req.body.foodId,
+    }); //check if item to be removed from the cart is on the menu
 
-    if (!productExist) {
-      return res
-        .status(404)
-        .json({
-          success: false,
-          message: "product to be removed from cart not found in store",
-        }); //if product doesn't exist return the json response above
+    if (!menuItemExist) {
+      return res.status(404).json({
+        success: false,
+        message: " Item is sold out! ",
+      }); //if item doesn't exist return the json response above
     }
 
-    const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
+    const cart = await Cart.findOne({ _id: user._id }); 
 
     if (cart) {
       console.log("user has a cart");
 
-      // check if product already exists in cart
-      let product = cart.products.find((item) => {
-        if (item.productID === req.body.productId) {
-          // console.log(item)
+      // check if item already exists in cart
+      let foodItem = cart.menuItem.find((item) => {
+        if (item.foodID === req.body.foodId) {
           return item;
         }
       });
+
+
+    
       // REMOVE TO CART SECTION
       // CHECK IF PRODUCT ALREADY IN CART
-      if (product != undefined) {
-        // console.log(product, "product already exists in cart");
-
+      if ( foodItem != undefined) {
         let quantity = parseInt(req.body.quantity); // convert product quantity to a number
-        if (cart.products.length === 1 && product.quantity === 1) {
+        if (cart.menuItem.length === 1 && foodItem.quantity === 1) {
           await Cart.findOneAndDelete({ _id: user._id });
+          return res.status(200).json({
+            success: true,
+            message: "Item removed from cart successfully!",
+            cart: cart,
+          });
         }
-        if (product.quantity == 1) {
-          cart.products.splice(cart.products.indexOf(product), 1);
-          product.subtotal = product.quantity * productExist.price;
-          console.log(typeof product.subtotal);
-          cart.itemCount = checkQuantity(cart.products);
-          cart.totalPrice = getSubtotal(cart.products);
+        if (foodItem.quantity == 1) {
+          cart.menuItem.splice(cart.menuItem.indexOf(foodItem), 1);
+          foodItem.subtotal = foodItem.quantity * menuItemExist.price;
+          cart.itemCount = checkQuantity(cart.menuItem);
+          cart.totalPrice = getSubtotal(cart.menuItem);
         } else {
-          product.quantity -= quantity || 1;
-          console.log(product.quantity);
+          foodItem.quantity -= quantity || 1;
           // it's subtracts specified quantity of product or subtracts 1 if quantity not specified
-          product.subtotal = product.quantity * productExist.price;
-          console.log(typeof product.subtotal);
-          cart.itemCount = checkQuantity(cart.products);
-          cart.totalPrice = getSubtotal(cart.products);
+          foodItem.subtotal = foodItem.quantity * menuItemExist.price;
+          cart.itemCount = checkQuantity(cart.menuItem);
+          cart.totalPrice = getSubtotal(cart.menuItem);
         }
         cart.save(cart, (err, cart) => {
           if (err) {
-            return res.json({
+            return res.status(400).json({
               success: false,
               message: err,
             });
           } else {
-            return res.json({
+            return res.status(200).json({
               success: true,
-              message: "product deleted from cart successfully",
+              message: "Item removed from cart successfully!",
               cart: cart,
             });
           }
         });
       } else {
-        res
-          .status(409)
-          .json({
-            success: false,
-            message: "cannot delete, this product is not in your cart ",
-          });
+        res.status(409).json({
+          success: false,
+          message: "Cannot remove Item!",
+        });
       }
     }
 
@@ -249,35 +242,54 @@ const removeFromCart = async (req, res) => {
   }
 };
 
+
+//GET  USER CART
 const getCart = async (req, res) => {
   try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized User!" });
+    }
     // check if cart exists
     let cart = await Cart.findOne({
-      _id: req.params.id,
+      _id: user.id,
     });
     if (cart) {
-      res.json({
+      return res.json({
         success: true,
         message: "Cart retrieved",
         cart: cart,
       });
     } else {
-      res.json({
+      return res.json({
         success: false,
         message: "Cart does not exist",
       });
     }
   } catch (error) {
     console.log(error);
+    return res
+      .status(500)
+      .json({ message: "server Error: " + error.message, success: false });
   }
 };
+
+
 
 const deleteCart = async (req, res) => {
   try {
     // check if cart exists
-    const deletedCart = await Cart.findOneAndDelete({ _id: req.params.id });
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Unauthorized User!" });
+    }
+    const deletedCart = await Cart.findOneAndDelete({ _id: user.id });
     if (!deletedCart) {
-      res.status(404).json({
+      return res.status(404).json({
         success: false,
         message: " cart not found",
       });
@@ -292,4 +304,11 @@ const deleteCart = async (req, res) => {
   }
 };
 
-module.exports = { getCart, removeFromCart, addToCart, deleteCart };
+module.exports = {
+  getCart,
+  removeFromCart,
+  addToCart,
+  deleteCart,
+  getSubtotal,
+  checkQuantity,
+};

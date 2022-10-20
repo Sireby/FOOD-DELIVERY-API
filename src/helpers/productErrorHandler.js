@@ -1,27 +1,27 @@
 const { request } = require("http");
-const { deleteProduct } = require("../controllers/productController");
+const { deleteMenuItem } = require("../controllers/menuController");
 const {
-  productName,
+  foodName,
   category,
   price,
   description,
   images,
   timestamps,
-} = require("../models/productModel");
+} = require("../models/menuModel");
 
-const productErrorHandler = (err) => {
+const menuErrorHandler = (err) => {
   console.log(err.message);
   let error = {
-    productName: "",
+    foodName: "",
     category: "",
-    uniqueProductId: "",
+    uniqueFoodId: "",
     price: "",
     description: "",
     images: "",
     timestamps: "",
   };
 
-  if (err.message.includes("product validation failed")) {
+  if (err.message.includes("Item validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       error[properties.path] = properties.message;
     });
@@ -29,4 +29,4 @@ const productErrorHandler = (err) => {
   return error;
 };
 
-module.exports = productErrorHandler;
+module.exports = menuErrorHandler;

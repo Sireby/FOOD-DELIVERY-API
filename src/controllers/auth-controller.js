@@ -47,7 +47,7 @@ exports.signUp = async (req, res) => {
       .status(400)
       .json({ message: "Password is less than 6 characters" });
   } catch (error) {
-    const errors = handleError.handleError(error);
+    const errors = handleError(error);
     res.status(404).json({ errors });
   }
 };
@@ -95,11 +95,15 @@ exports.signIn = async (req, res) => {
 //Logout
 exports.logout = async (req, res) => {
   try {
+    const token = "";
+    res.cookie("jwt", token, { httpOnly: true});
     res.status(200).json({ message: "You've successfully logged out" });
   } catch (error) {
     res.status(404).json({ message: "Account not logged out" });
   }
 };
+
+
 
 const requestPasswordReset = async (email) => {
   try {
@@ -170,3 +174,19 @@ exports.resetPasswordController = async (req, res, next) => {
     res.status(400).json({ message: error });
   }
 };
+exports.deleteUser = async(req, res)=>{
+  try{
+    const deletedUser =  await User.findOneAndDelete({_id: req.user.id });
+    if(!deletedUser){
+      await Token.findOneAndDelete({ userId : req.user.id});
+      return res.status(400).json({message: "unable to delete account"})
+    }
+    return res.status(200).json({
+      success: true,
+      message:"account deleted"
+    })
+  }
+  catch(error) {
+    res.status(500).json({ message: error });
+  }
+}

@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const CartSchema = new mongoose.Schema(
   {
     _id: { type: String, required: [true, "input a valid userId"] },
-    products: [
+    menuItem: [
       {
-        productID: String,
-        product: {
+        //foodID: String,
+        food: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "product",
+          ref: "menu",
           autopopulate: true,
         },
-
+ 
         quantity: {
           type: Number,
           default: 1,

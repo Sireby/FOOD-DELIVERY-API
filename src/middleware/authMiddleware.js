@@ -21,7 +21,7 @@ exports.auth = async (req, res, next) => {
         token = req.headers.authorization.split(" ")[1];
     }
     if(!token){
-        return res.status(403).json({
+        return res.status(401).json({
             message: "Not logged In",
         });
     }
@@ -34,7 +34,7 @@ exports.auth = async (req, res, next) => {
       next();
 };
 
-//Check if user s logged in
+//Check if user is logged in
 exports.checkUser = (...roles) => {
     return async (req, res, next) => {
     if (!req.user.role.includes(...roles)) {
